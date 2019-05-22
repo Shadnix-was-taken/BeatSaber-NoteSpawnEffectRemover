@@ -3,8 +3,8 @@
   "author": "Shadnix",
   "description": "Removes the light spawn effect of notes/mines.",
   "gameVersion": "1.0.0",
-  "id": null,
+  "id": "NoteSpawnEffectRemover",
   "name": "NoteSpawnEffectRemover",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "features": []
 }

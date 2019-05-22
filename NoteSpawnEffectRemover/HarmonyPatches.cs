@@ -10,10 +10,10 @@ namespace NoteSpawnEffectRemover.HarmonyPatches
     [HarmonyPatch(new Type[] { typeof(Color), typeof(float), typeof(Quaternion) })]
     class BeatEffectInitPatch
     {
-        static bool Prefix(Color color, float animationDuration, Quaternion rotation)
+        static void Prefix(Color color, ref float animationDuration, Quaternion rotation)
         {
-            // stop the effect from Initializing
-            return false;
+            animationDuration = 0f;
+            return;
         }
     }
 }
