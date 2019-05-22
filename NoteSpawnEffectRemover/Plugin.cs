@@ -1,6 +1,7 @@
-﻿using IPA;
-using IPA.Config;
-using IPA.Utilities;
+﻿using Harmony;
+using IPA;
+using System;
+using System.Reflection;
 using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
 
@@ -8,30 +9,25 @@ namespace NoteSpawnEffectRemover
 {
     public class Plugin : IBeatSaberPlugin
     {
-        internal static Ref<PluginConfig> config;
-        internal static IConfigProvider configProvider;
+        public string Name => "NoteSpawnEffectRemover";
+        public string Version => "1.0.0";
 
-        public void Init(IPALogger logger, [Config.Prefer("json")] IConfigProvider cfgProvider)
+        internal static bool harmonyPatchesLoaded = false;
+        internal static HarmonyInstance harmonyInstance = HarmonyInstance.Create("com.shadnix.BeatSaber.NoteSpawnEffectRemover");
+
+        public void Init(object thisWillBeNull, IPALogger logger)
         {
             Logger.log = logger;
-            configProvider = cfgProvider;
-
-            config = cfgProvider.MakeLink<PluginConfig>((p, v) =>
-            {
-                if (v.Value == null || v.Value.RegenerateConfig)
-                    p.Store(v.Value = new PluginConfig() { RegenerateConfig = false });
-                config = v;
-            });
         }
 
         public void OnApplicationStart()
         {
-            Logger.log.Debug("OnApplicationStart");
+            
         }
 
         public void OnApplicationQuit()
         {
-            Logger.log.Debug("OnApplicationQuit");
+            
         }
 
         public void OnFixedUpdate()
@@ -51,7 +47,25 @@ namespace NoteSpawnEffectRemover
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
         {
+            // Do nothing, if patches are already applied
+            if (harmonyPatchesLoaded) { return; }
 
+            // Check if we are loading into the main menu
+            if (scene.name != "MenuCore") { return; }
+
+            // Patch game
+            try
+            {
+                Logger.log.Info("Loading Harmony patches...");
+                harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
+                Logger.log.Info("Loaded Harmony patches.");
+            }
+            catch (Exception e)
+            {
+                Logger.log.Error("Loading Harmony patches failed. Please check if you have Harmony installed.");
+                Logger.log.Error(e.ToString());
+            }
+            harmonyPatchesLoaded = true;
         }
 
         public void OnSceneUnloaded(Scene scene)
