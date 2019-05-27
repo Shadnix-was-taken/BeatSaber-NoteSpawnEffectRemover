@@ -1,6 +1,6 @@
 # Beat Saber NoteSpawnEffectRemover
 
-Removes the note spawn effect (the bright light cone). That is it. Nothing else.
+Removes the note spawn effect (the bright light cone). That is it. Nothing else. Based on a mod idea by NepToast.
 
 ## Installation
 
