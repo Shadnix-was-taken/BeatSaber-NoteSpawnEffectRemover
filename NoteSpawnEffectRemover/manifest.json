@@ -5,7 +5,7 @@
   "gameVersion": "1.0.0",
   "id": "NoteSpawnEffectRemover",
   "name": "NoteSpawnEffectRemover",
-  "version": "1.0.2",
+  "version": "1.0.999",
   "dependsOn": {
   	  "BSIPA": "^3.12.19"
   },

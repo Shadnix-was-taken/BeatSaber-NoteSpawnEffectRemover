@@ -40,6 +40,10 @@
       <HintPath>$(GameDirPath)Beat Saber_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="BeatSaberCustomUI">
+      <HintPath>$(GameDirPath)Plugins\BeatSaberCustomUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="IPA.Loader">
       <HintPath>$(GameDirPath)Beat Saber_Data\Managed\IPA.Loader.dll</HintPath>
       <Private>False</Private>
