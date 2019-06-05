@@ -2,13 +2,16 @@
   "$schema": "https://raw.githubusercontent.com/nike4613/ModSaber-MetadataFileSchema/master/Schema.json",
   "author": "Shadnix",
   "description": "Removes the light spawn effect of notes/mines.",
-  "gameVersion": "1.0.0",
+  "gameVersion": "1.0.1",
   "id": "NoteSpawnEffectRemover",
   "name": "NoteSpawnEffectRemover",
-  "version": "1.0.999",
+  "version": "1.1.0",
   "dependsOn": {
-  	  "BSIPA": "^3.12.19"
+  	  "BSIPA": "^3.12.19",
+	  "BS Utils": "^1.3.2",
+	  "CustomUI": "^1.5.8"
   },
+  "loadAfter": [ "BS Utils", "CustomUI" ],
   "features": [],
   "links": {
 	"project-home": "https://github.com/Shadnix-was-taken/BeatSaber-NoteSpawnEffectRemover"

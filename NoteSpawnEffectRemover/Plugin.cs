@@ -1,7 +1,5 @@
 ﻿using Harmony;
 using IPA;
-using IPA.Config;
-using IPA.Utilities;
 using System;
 using System.Reflection;
 using UnityEngine.SceneManagement;
@@ -13,25 +11,14 @@ namespace NoteSpawnEffectRemover
     public class Plugin : IBeatSaberPlugin
     {
         public const string Name = "NoteSpawnEffectRemover";
-        public const string Version = "1.0.999";
+        public const string Version = "1.1.0";
 
         internal static bool harmonyPatchesLoaded = false;
         internal static HarmonyInstance harmonyInstance = HarmonyInstance.Create("com.shadnix.BeatSaber.NoteSpawnEffectRemover");
 
-        internal static Ref<PluginConfig> config;
-        internal static IConfigProvider configProvider;
-
-        public void Init(IPALogger logger, [Config.Prefer("json")] IConfigProvider cfgProvider)
+        public void Init(object thisIsNull, IPALogger logger)
         {
             Logger.log = logger;
-            configProvider = cfgProvider;
-
-            config = cfgProvider.MakeLink<PluginConfig>((p, v) =>
-            {
-                if (v.Value == null || v.Value.RegenerateConfig)
-                    p.Store(v.Value = new PluginConfig() { RegenerateConfig = false });
-                config = v;
-            });
         }
 
         public void OnApplicationStart()
@@ -41,6 +28,9 @@ namespace NoteSpawnEffectRemover
 
         public void OnApplicationQuit()
         {
+            // Save settings
+            Settings.Save();
+            // Unload Harmony patches
             if (harmonyPatchesLoaded)
             {
                 Logger.log.Info("Quitting application - removing Harmony patches...");
@@ -65,22 +55,28 @@ namespace NoteSpawnEffectRemover
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
         {
+            // Initialize CustomUI settings
+            if (scene.name == "MenuCore")
+            {
+                Settings.Load();
+                UI.BasicUI.CreateGameplayOptionsUI();
+            }
+
             // Check for scene MenuCore and GameCore, MenuCore for initializing on start, GameCore for changes to config
             if (scene.name == "MenuCore" || scene.name == "GameCore")
             {
-                if (!harmonyPatchesLoaded && config.Value._isModEnabled)
+                if (!harmonyPatchesLoaded && Settings._isModEnabled)
                 {
                     Logger.log.Info("Loading Harmony patches...");
                     LoadHarmonyPatches();
-                    return;
                 }
-                if (harmonyPatchesLoaded && !config.Value._isModEnabled)
+                if (harmonyPatchesLoaded && !Settings._isModEnabled)
                 {
                     Logger.log.Info("Unloading Harmony patches...");
                     UnloadHarmonyPatches();
-                    return;
                 }
             }
+
         }
 
         public void OnSceneUnloaded(Scene scene)
