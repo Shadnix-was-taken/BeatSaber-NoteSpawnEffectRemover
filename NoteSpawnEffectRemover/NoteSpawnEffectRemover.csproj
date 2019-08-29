@@ -80,4 +80,7 @@
     <EmbeddedResource Include="manifest.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy ".\NoteSpawnEffectRemover.dll" "$(GameDirPath)Plugins"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
