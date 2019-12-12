@@ -36,8 +36,8 @@
       <HintPath>$(GameDirPath)Beat Saber_Data\Managed\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(GameDirPath)Beat Saber_Data\Managed\Assembly-CSharp.dll</HintPath>
+    <Reference Include="MainAssembly">
+      <HintPath>$(GameDirPath)Beat Saber_Data\Managed\MainAssembly.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="BeatSaberCustomUI">
