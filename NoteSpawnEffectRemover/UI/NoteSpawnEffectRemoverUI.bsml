@@ -1,0 +1,3 @@
+<settings-container>
+  <bool-setting text='Remove spawn effect' value='boolEnable'></bool-setting>
+</settings-container>

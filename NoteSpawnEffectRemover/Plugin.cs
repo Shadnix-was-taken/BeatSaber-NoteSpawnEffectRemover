@@ -1,5 +1,7 @@
-﻿using Harmony;
+﻿using BeatSaberMarkupLanguage.Settings;
+using Harmony;
 using IPA;
+using NoteSpawnEffectRemover.UI;
 using System;
 using System.Reflection;
 using UnityEngine.SceneManagement;
@@ -23,13 +25,11 @@ namespace NoteSpawnEffectRemover
 
         public void OnApplicationStart()
         {
-            
+
         }
 
         public void OnApplicationQuit()
         {
-            // Save settings
-            Settings.Save();
             // Unload Harmony patches
             if (harmonyPatchesLoaded)
             {
@@ -50,33 +50,28 @@ namespace NoteSpawnEffectRemover
 
         public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
         {
-
+            if (nextScene.name == "MenuViewControllers")
+            {
+                BSMLSettings.instance.AddSettingsMenu("Note Spawn Effect Rem.", "NoteSpawnEffectRemover.UI.NoteSpawnEffectRemoverUI.bsml", NoteSpawnEffectRemoverUI.instance);
+            }
         }
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
         {
-            // Initialize CustomUI settings
-            if (scene.name == "MenuCore")
-            {
-                Settings.Load();
-                UI.BasicUI.CreateGameplayOptionsUI();
-            }
-
             // Check for scene MenuCore and GameCore, MenuCore for initializing on start, GameCore for changes to config
             if (scene.name == "MenuCore" || scene.name == "GameCore")
             {
-                if (!harmonyPatchesLoaded && Settings._isModEnabled)
+                if (!harmonyPatchesLoaded && NoteSpawnEffectRemoverUI.instance._isModEnabled)
                 {
                     Logger.log.Info("Loading Harmony patches...");
                     LoadHarmonyPatches();
                 }
-                if (harmonyPatchesLoaded && !Settings._isModEnabled)
+                if (harmonyPatchesLoaded && !NoteSpawnEffectRemoverUI.instance._isModEnabled)
                 {
                     Logger.log.Info("Unloading Harmony patches...");
                     UnloadHarmonyPatches();
                 }
             }
-
         }
 
         public void OnSceneUnloaded(Scene scene)
