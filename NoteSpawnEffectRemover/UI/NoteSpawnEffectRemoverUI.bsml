@@ -1,3 +1,3 @@
 <settings-container>
-  <bool-setting text='Remove spawn effect' value='boolEnable'></bool-setting>
+  <bool-setting text='Remove note spawn effect' value='boolEnable'></bool-setting>
 </settings-container>

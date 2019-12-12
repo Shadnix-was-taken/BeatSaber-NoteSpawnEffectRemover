@@ -52,7 +52,7 @@ namespace NoteSpawnEffectRemover
         {
             if (nextScene.name == "MenuViewControllers")
             {
-                BSMLSettings.instance.AddSettingsMenu("Note Spawn Effect Rem.", "NoteSpawnEffectRemover.UI.NoteSpawnEffectRemoverUI.bsml", NoteSpawnEffectRemoverUI.instance);
+                BSMLSettings.instance.AddSettingsMenu("Note Spawn Eff.", "NoteSpawnEffectRemover.UI.NoteSpawnEffectRemoverUI.bsml", NoteSpawnEffectRemoverUI.instance);
             }
         }
 
