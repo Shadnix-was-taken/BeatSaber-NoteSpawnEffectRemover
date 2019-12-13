@@ -7,9 +7,9 @@
   "name": "NoteSpawnEffectRemover",
   "version": "1.5.0",
   "dependsOn": {
-  	"BSIPA": "^3.12.23",
-	"BS Utils": "^1.3.7",
-	"BeatSaberMarkupLanguage": "^1.0.6"
+    "BSIPA": "^3.13.4",
+    "BeatSaberMarkupLanguage": "^1.1.0",
+    "BS Utils": "^1.4.0"
   },
   "loadAfter": [ "BS Utils", "CustomUI" ],
   "features": [],
