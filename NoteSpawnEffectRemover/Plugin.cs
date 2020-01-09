@@ -13,7 +13,7 @@ namespace NoteSpawnEffectRemover
     public class Plugin : IBeatSaberPlugin
     {
         public const string Name = "NoteSpawnEffectRemover";
-        public const string Version = "1.5.0";
+        public const string Version = "1.6.0";
 
         internal static bool harmonyPatchesLoaded = false;
         internal static HarmonyInstance harmonyInstance = HarmonyInstance.Create("com.shadnix.BeatSaber.NoteSpawnEffectRemover");
