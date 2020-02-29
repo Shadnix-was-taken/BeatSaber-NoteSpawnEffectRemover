@@ -1,5 +1,5 @@
 ﻿using BeatSaberMarkupLanguage.Settings;
-using Harmony;
+using HarmonyLib;
 using IPA;
 using NoteSpawnEffectRemover.UI;
 using System;
@@ -10,25 +10,29 @@ using IPALogger = IPA.Logging.Logger;
 
 namespace NoteSpawnEffectRemover
 {
-    public class Plugin : IBeatSaberPlugin
+    [Plugin(RuntimeOptions.SingleStartInit)]
+    public class Plugin
     {
         public const string Name = "NoteSpawnEffectRemover";
-        public const string Version = "1.6.0";
+        public const string Version = "1.7.0";
 
         internal static bool harmonyPatchesLoaded = false;
-        internal static HarmonyInstance harmonyInstance = HarmonyInstance.Create("com.shadnix.BeatSaber.NoteSpawnEffectRemover");
+        internal static Harmony harmonyInstance = new Harmony("com.shadnix.BeatSaber.NoteSpawnEffectRemover");
 
+        [Init]
         public void Init(object thisIsNull, IPALogger logger)
         {
             Logger.log = logger;
         }
 
-        public void OnApplicationStart()
+        [OnStart]
+        public void OnStart()
         {
-
+            AddEvents();
         }
 
-        public void OnApplicationQuit()
+        [OnExit]
+        public void OnExit()
         {
             // Unload Harmony patches
             if (harmonyPatchesLoaded)
@@ -36,21 +40,12 @@ namespace NoteSpawnEffectRemover
                 Logger.log.Info("Quitting application - removing Harmony patches...");
                 UnloadHarmonyPatches();
             }
-        }
-
-        public void OnFixedUpdate()
-        {
-
-        }
-
-        public void OnUpdate()
-        {
-
+            RemoveEvents();
         }
 
         public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
         {
-            if (nextScene.name == "MenuViewControllers")
+            if (nextScene.name == "MenuViewControllers" && prevScene.name == "EmptyTransition")
             {
                 BSMLSettings.instance.AddSettingsMenu("Note Spawn Eff.", "NoteSpawnEffectRemover.UI.NoteSpawnEffectRemoverUI.bsml", NoteSpawnEffectRemoverUI.instance);
             }
@@ -74,9 +69,17 @@ namespace NoteSpawnEffectRemover
             }
         }
 
-        public void OnSceneUnloaded(Scene scene)
+        private void AddEvents()
         {
+            RemoveEvents();
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
 
+        private void RemoveEvents()
+        {
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
         internal void LoadHarmonyPatches()
